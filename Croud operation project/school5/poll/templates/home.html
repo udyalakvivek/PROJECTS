@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        .errorlist{
+            color : red;
+            list-style-type:none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row mt-3">
+            <div class="col border border-1 p-2 border-primary rounded mr-2">
+                <h1 class="border-bottom border-dark pb-2">Student Registration Form</h1>
+                <form action="" method="post" novalidate>
+                    {% csrf_token %}
+                        {{form.as_p}}
+                    <input class="btn btn-success" type="submit" value="Save">
+                </form>
+            </div>
+            <div class="col border border-1 p-2 border-primary rounded">
+                <h1  class="border-bottom border-dark pb-2">All Data Of student</h1>
+                <table class="table table-sm">
+                    {% if data %}
+                    <thead>
+                      <tr>
+                        <th scope="col">Student Name</th>
+                        <th scope="col">Student Address</th>
+                        <th scope="col">Student Roll Number</th>
+                        <th scope="col">School Name</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                        <tbody>
+                            {% for dt in data %}
+                                <tr>
+                                    <th scope="row"><a href="{% url "student-data" dt.id %}">{{dt.name|title}}</a></th>
+                                    <td>{{dt.address|title}}</td>
+                                    <td>{{dt.roll}}</td>
+                                    <td>{{dt.school_Name|title|truncatechars:10}}</td>
+                                    <td><a href="{% url "student-delete" dt.id %}">Delete</a>|<a href="{% url "student-update" dt.id %}">Edit</a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                        {% else %}
+                            <h1 class="text text-center text-primary">No Records Availaible</h1>
+                    {% endif %}
+                  </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
